@@ -15,7 +15,7 @@ pipeline {
     }
     stage('Build docker img') {
       steps {
-        sh 'docker build -t . fronttest'
+        sh 'docker build -t fronttest . '
       }
     }
     stage('Deploy') {
