@@ -13,15 +13,14 @@ pipeline {
         sh 'docker system prune -a --volumes -f'
       }
     }
-    stage('Start container and build') {
+    stage('Build docker img') {
       steps {
-        sh 'docker compose up --build -d --no-color --wait'
-        sh 'docker compose ps'
+        sh 'docker build -t . fronttest'
       }
     }
-    stage('Run tests against the container') {
+    stage('Deploy') {
       steps {
-        sh 'curl http://localhost:3000 | jq'
+          sh 'docker run -dit --name fronttest --restart unless-stopped -p 3030:80 fronttest'
       }
     }
   }
